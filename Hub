@@ -1,0 +1,233 @@
+local Devbuild = true
+
+
+-- Vars
+
+getgenv().player = game:GetService("Players").LocalPlayer
+getgenv().playerID = player.UserId
+getgenv().Executor = identifyexecutor()
+getgenv().GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+
+-- Hub status
+
+getgenv().Version = "1.0 Beta"
+Status = "online" -- online or offline
+Reason = "" -- Reason for being offline
+
+if Status == "offline" then
+    game:GetService("Players").LocalPlayer:Kick(Reason)
+end
+
+-- Hub Verification
+
+local ExecWhiteList = {"Solara", "s"}
+local ExecBlackList = {"s", "s"}
+local CrashList = {"Celery", "s"}
+local ExecNotList = {"s", "s"}
+
+if table.find(ExecWhiteList, getgenv().Executor) then
+    print("Executor is Whitlisted")
+    getgenv().Whitelisted = true
+elseif table.find(ExecBlackList, getgenv().Executor) then
+    game:GetService("Players").LocalPlayer:Kick("Executor is Blacklisted")
+elseif table.find(ExecNotList, getgenv().Executor) then
+    game:GetService("Players").LocalPlayer:Kick("Executor is Not suported")
+elseif table.find(CrashList, getgenv().Executor) then
+crashUrl = "https://raw.githubusercontent.com/CeleryHub-official/CeleryHub/main/crash"
+loadstring(game:HttpGet(crashUrl))()
+else
+    print("Executor has not been tested")
+    getgenv().Whitelisted = false
+end
+
+-- User Verification
+
+local devIDs = {95404551, 7198088326}
+local bannedIDs = {95404551, 1}
+local premiumIDs = {1, 1}
+local betaIDs = {95404551, 1}
+
+
+local function checkPlayerID(id)
+    if table.find(devIDs, id) then
+        ps = 4
+    elseif table.find(bannedIDs, id) then
+        ps = 0
+    elseif table.find(premiumIDs, id) then
+        ps = 2
+    elseif table.find(betaIDs, id) then
+        ps = 3
+    else
+        ps = 1
+    end
+end
+checkPlayerID(playerID)
+getgenv().access = ps
+
+if ps == 0 then
+    game:GetService("Players").LocalPlayer:Kick("Banned")
+end
+
+--Start of Hub
+getgenv().Icon = "Orion" -- Orion or paste a custom rbxassetid
+getgenv().Name = "Majestic"
+         Theme = "Majestic" -- Orion, Majestic, or Custom
+
+if Theme == "Custom" then
+    getgenv().MainRed = 0
+    getgenv().MainGreen = 0
+    getgenv().MainBlue = 0
+
+    getgenv().SecondRed = 0
+    getgenv().SecondGreen = 0
+    getgenv().SecondBlue = 0
+
+    getgenv().StrokeRed = 0
+    getgenv().StrokeGreen = 0
+    getgenv().StrokeBlue = 0
+
+    getgenv().DividerRed = 0
+    getgenv().DividerGreen = 0
+    getgenv().DividerBlue = 0
+
+    getgenv().TextRed = 0
+    getgenv().TextGreen = 0
+    getgenv().TextBlue = 0
+
+    getgenv().TextDarkRed = 0
+    getgenv().TextDarkGreen = 0
+    getgenv().TextDarkBlue = 0
+
+    getgenv().Theme = "Custom"
+else
+    getgenv().Theme = Theme
+end
+
+local MajesticLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CeleryHub-official/Majestic-Lib/main/Lib%20Source')))()
+
+local Window = MajesticLib:MakeWindow({Name = "MAJESTIC Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "MajesticTest"})
+
+local Tab = Window:MakeTab({
+	Name = "Info",
+	Icon = "rbxassetid://4483345998",
+})
+
+if getgenv().access == 1 then
+    accessTxt = "User"
+elseif getgenv().access == 2 then
+    accessTxt = "Premium"
+elseif getgenv().access == 3 then
+    accessTxt = "Beta"
+elseif getgenv().access == 4 then
+    accessTxt = "Dev"
+end
+
+Tab:AddLabel("Game Name - " .. getgenv().GameName)
+Tab:AddLabel("Celery Hub access level - " .. accessTxt)
+Tab:AddLabel("Celery Hub Version - " .. getgenv().Version)
+Tab:AddLabel("Executor - " .. getgenv().Executor)
+
+local Tab = Window:MakeTab({
+	Name = "Universal",
+	Icon = "rbxassetid://4483345998",
+})
+
+Tab:AddButton({
+	Name = "Debug menu",
+	Callback = function()
+        debuglink = "https://raw.githubusercontent.com/MAJESTY5164/MAJESTIC-Hub/main/Debug%20menu"
+    loadstring(game:HttpGet(debuglink))()
+  	end    
+})
+Tab:AddButton({
+    Name = "Executor",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/FreezyWare/Remake-Executor/main/Executor/Krnl-Legacy.Lua"))()
+      end    
+})
+Tab:AddButton({
+    Name = "Esp - Made By MAJESTY",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/CeleryHub-official/CeleryHub/main/esp'))()
+      end    
+})
+
+Tab:AddButton({
+    Name = "SYSTEMBROKEN - Made By MalwareHUB",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
+      end    
+})
+Tab:AddButton({
+    Name = "Infinite Yield FE v6 - Made by Unknown",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+      end    
+})
+
+local Tab = Window:MakeTab({
+    Name = "Rivals",
+     Icon = "rbxassetid://4483345998",
+  })
+
+  Tab:AddButton({
+    Name = "Rivals Roblox GUI - Made By Skyee",
+    Callback = function()
+        local scriptURL = 'https://raw.githubusercontent.com/Sheeshablee73/Scriptss/main/RivalsUPD2.lua'
+    local response = game:HttpGet(scriptURL)
+    local executeScript = loadstring(response)
+    executeScript()
+      end    
+})
+
+local Tab = Window:MakeTab({
+    Name = "Blade Ball",
+     Icon = "rbxassetid://4483345998",
+  })
+
+  Tab:AddButton({
+    Name = "Triple Hub - Made By Triple",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/000177171/mantain-scripts/main/BB/TripleHub"))()
+      end    
+})
+
+local Tab = Window:MakeTab({
+    Name = "Arsenal",
+     Icon = "rbxassetid://4483345998",
+  })
+
+  Tab:AddButton({
+    Name = "Arsenal Gui - Made By MAJESTY",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/CeleryHub-official/CeleryHub/main/Arsenal%20Gui"))()
+      end    
+})
+
+  Tab:AddButton({
+    Name = "Aimbot - Made By neural",
+    Callback = function()
+        -- when you press your left mouse button the aimbot is enabled, when u let it go it gets disabled.
+
+getgenv().Settings = {
+Radius = 100, -- The size of your aimbot FOV, i recommend between 50 - 300 :)
+}
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/diglt/Luau-Scripts/main/Test%20Project%209/Arsenal%20Aimbot.lua'))()
+      end    
+})
+
+local Tab = Window:MakeTab({
+    Name = "Pressure",
+      Icon = "rbxassetid://4483345998",
+    })
+    Tab:AddButton({
+     Name = "Pressure Gui - Made By playvora",
+      Callback = function()
+         loadstring(game:HttpGet("https://raw.githubusercontent.com/CeleryHub-official/CeleryHub/main/Pressure%20Gui"))()
+       end    
+  })
+
+  DevBuild = nil
+
+  MajesticLib:Init()
