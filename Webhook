@@ -1,0 +1,87 @@
+function SendMessageEMBED(url, embed)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["embeds"] = {
+            {
+                ["title"] = embed.title,
+                ["description"] = embed.description,
+                ["color"] = embed.color,
+                ["fields"] = embed.fields,
+                ["footer"] = {
+                    ["text"] = embed.footer.text
+                }
+            }
+        }
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+end
+
+-- LocalScript (e.g., in StarterGui or StarterPlayerScripts)
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function getLocalTime()
+    local currentTime = os.date("*t") -- Get the current local time as a table
+    local hours = currentTime.hour
+    local minutes = currentTime.min
+    local seconds = currentTime.sec
+
+    -- Format time as a string (e.g., "HH:MM:SS")
+    return string.format("%02d:%02d:%02d", hours, minutes, seconds)
+end
+
+print("Local Time:", getLocalTime())
+
+
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+
+
+writefile("temp.txt", tostring(test))
+
+--Examples 
+
+local url = "https://discord.com/api/webhooks/1280988642973847633/AziprwNoWXhEmgPdFPNRL00S08kgKoAf-qNSk_QovEIwVzohobr9U5vC06XyAfg69fK6"
+
+local embed = {
+    ["title"] = "Hub was Executed",
+    ["description"] = "",
+    ["color"] = 0,
+    ["fields"] = {
+        {
+            ["name"] = "Player Name",
+            ["value"] = player.Name
+        },
+        {
+            ["name"] = "Time",
+            ["value"] = getLocalTime()
+        },
+        {
+            ["name"] = "Hub Version",
+            ["value"] = getgenv().Version
+        },
+        {
+            ["name"] = "Executor",
+            ["value"] = identifyexecutor()
+        },
+        {
+            ["name"] = "Game",
+            ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+        }
+    },
+    ["footer"] = {
+        ["text"] = ""
+    }
+}
+SendMessageEMBED(url, embed)
