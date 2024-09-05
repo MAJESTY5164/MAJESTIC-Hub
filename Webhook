@@ -39,16 +39,11 @@ local function getLocalTime()
     return string.format("%02d:%02d:%02d", hours, minutes, seconds)
 end
 
-print("Local Time:", getLocalTime())
 
 
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-
-
-
-writefile("temp.txt", tostring(test))
 
 --Examples 
 
